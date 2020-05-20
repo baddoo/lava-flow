@@ -1,6 +1,6 @@
 %% CALCULATEH1
 
-function h1 = calculateH1(cen,rad)
+function h1Fin = calculateH1(cen,rad)
 
 % Returns a function handle 
 
@@ -9,7 +9,7 @@ M = numel(rad)-1; % Connectivity of domain
 if M==0
     
     % In the simply connected  case we can use the Milne-Thomson circle theorem directly    
-h1 = @(z) (z-cen) + rad^2./(z-cen);
+h1 = @(z) real(rad^2./(z-cen));
     
 else
 % Define Mobius map that maps the first circle to the unit disc,
@@ -37,7 +37,7 @@ dpg0x = greensC0Dpxy(rot*b/conj(a), 'x', dom);
 % Define function h
 chi = angle(res);
 h1 = @(z) real(-2*pi*real(res)*(cos(chi)*dpg0y(rot*mob(z)) + sin(chi)*dpg0x(rot*mob(z))) - z);
-
+h1Fin = @(z) h1(z) - h1(1e5); 
 end
 
 end
